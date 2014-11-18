@@ -1,0 +1,17 @@
+~/.screenrc
+
+1.关闭bell和闪屏
+vbell off
+vbell_msg "   Wuff  ----  Wuff!!  "
+
+2.切换按钮,变成ctrl-z+..
+escape ^Zz
+
+基本上常用的就是
+ctrl-z+c/+p/+n/+d
+ctrl-z+[,用来进入翻屏状态,用vi的快捷键进行翻屏,esc退出
+ctrl-z+[,再单独按空格可以进入copy模式,操作也是用vi的快捷键进行翻屏,然后再按空格退出copy模式,不过不清楚这种copy模式得到的数据可以在哪里使用
+
+3.翻页条目数
+defscrollback 10000
+
