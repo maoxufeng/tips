@@ -1,0 +1,4 @@
+Start a new project
+-----
+
+mvn archetype:generate -DgroupId=com.m9suns.forfun -DartifactId=tips -Dpackage=com.m9suns.forfun.tips -Dversion=1.0-SNAPSHOT

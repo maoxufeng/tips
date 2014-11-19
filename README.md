@@ -5,9 +5,7 @@ project for easy looking up
 
 ### Note
 
-Format on README.md is based on Markdown
-
-refer to
+Format on README.md is based on Markdown, refer to
 
 https://github.com/guoyunsky/Markdown-Chinese-Demo
 
