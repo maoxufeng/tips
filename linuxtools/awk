@@ -1,0 +1,51 @@
+1.列出某一行除某些固定列以外的所有列
+例子是ps -auxww，想列出特定的列，比如用户名，pid，命令行，主要是命令行参数会更多一点，而且列数不固定
+ps auxwww | grep java | grep -v grep | awk '{$3=""; $4=""; $5=""; $6=""; $7=""; $8= ""; $10=""; print $0}'
+或者
+echo 1 2 3 4 5| awk '{ for (i=3; i<=NF; i++) print $i }'
+但是这种会导致列转变成行的情况
+
+2.取最后一列，这里也演示了多个分隔符的情况
+echo "1,2/3,4&5"| awk -F'[/,&]' '{print $1","$5","$NF}'
+
+3.聚合
+单列group by单列聚合
+awk '{a[$2]+=$5}END{for(i in a) printf "%s %10.3f\n",i,a[i]}' data.txt
+
+单列group by多列聚合
+awk '{a[$2]+=$5;b[$2]+=$6}END{for(i in a) printf "%s %10.3f %14.3f\n",i,a[i],b[i]}' data.txt
+
+多列group by单列聚合
+awk '{a[$2" "$3]+=$5}END{for(i in a) printf "%s %10.3f\n",i,a[i]}' data.txt
+
+多列group by多列聚合
+awk '{a[$2" "$3]+=$5;b[$2" "$3]+=$6}END{for(i in a) printf "%s %14.3f %14.3f\n",i,a[i],b[i]}' data.txt
+
+4.正则
+awk '$9 ~ /^\/[0-9]/' data.txt
+就是说第9列要符合/1213这样的
+
+5.
+列求和
+    cat you.txt |awk '{a+=$1}END{print a}'
+列求平均值
+    cat you.txt |awk '{a+=$1}END{print a/NR}'
+列求最大值
+    cat you.txt |awk 'BEGIN{a=0}{if ($1>a) a=$1 fi}END{print a}' 
+列求最小值
+    cat you.txt |awk 'BEGIN{a=11111}{if ($1<a) a=$1 fi}END{print a}'
+
+6.
+前提：日志已经通过logrotate按天切分，其内容类似下面的样子：
+
+123.123.123.123 - - [01/Jan/2013:00:01:01 +0800] "GET /path HTTP/1.1" 200 123 "-" "Mozilla"
+利用AWK，我们可以很方便的计算一天中每分钟的访问量是多少：
+
+awk -F: '{ count[$2":"$3]++ } END { for (minute in count) print minute, count[minute] }' /path/to/log | sort > count.log
+下面列出生成的count.log文件中的部分数据
+
+18:55 14450
+18:56 14926
+18:57 15645
+18:58 16678
+18:59 19032
