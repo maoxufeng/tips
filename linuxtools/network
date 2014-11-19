@@ -18,3 +18,45 @@ iperf, Measurement tool for TCP/UDP bandwidth performance
 		-p port
 
 		iperf -u -c 61.175.162.22 每r 每w 10k 每t 20 每i 5
+
+netstat
+	netstat -antp
+	netstat -lntp
+	
+tcpdump
+	tcpdump -e -i eth0/bond0 -n 'ip host a.b.c.d and tcp port 443'
+	tcpdump -e -n 'tcp port 9595' -XX -w output.file
+	
+dns
+	host -a www.google.com
+	nslookup www.google.com
+	nslookup -vc www.google.com
+	dig www.google.com
+	dig +trace www.google.com
+	whois google.com
+
+wget
+	wget ifconfig.me // check your own ip
+	wget -S http://. // show http header
+	
+ifconfig, turn on/off an interface
+	sudo ifconfig eth0:0 10.241.227.201 netmask 255.255.255.0
+	sudo ifconfig eth0:1 10.241.227.202 netmask 255.255.255.0
+	sudo ifconfig eth0:0 down
+	
+dns on windows
+	nslookup www.google.com
+	nslookup -qt=cname www.google.com
+	nslookup -qt=ns www.google.com
+	
+arping -D -I bond1 211.147.13.13
+	remember, run on another machine
+	
+iftraf, Interactive Colorful IP LAN Monitor
+
+netstat
+	netstat -i
+	netstat -r
+
+route
+	route -n
