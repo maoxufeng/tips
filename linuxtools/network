@@ -1,0 +1,20 @@
+nc, netcat
+	nc -l 9999 -k
+	echo -n "GET / HTTP/1.0\r\n\r\n" | nc localhost 80
+	
+mtr, traceroute+ping
+	mtr www.google.com
+	mtr -n www.google.com
+	
+iperf, Measurement tool for TCP/UDP bandwidth performance
+	on server
+		iperf -s
+
+	on client
+		iperf -c 175.100.110.51 -i 5 -t 30 -p 5001
+		-c serverip
+		-i display every 5 seconds
+		-t last 30 seconds
+		-p port
+
+		iperf -u -c 61.175.162.22 每r 每w 10k 每t 20 每i 5
