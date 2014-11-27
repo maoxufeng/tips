@@ -1,0 +1,31 @@
+Home page moved to https://github.com/jbachorik/btrace
+
+Warning
+  v1.2 has different API comparing to priors
+
+Weird
+  It seems I always got message below for the 2nd time attaching a Java process, but the much more weird thing is, it works for the 3rd, 4th times. Do not get frustrated when you run into the message, just keep trying.
+    ----
+    java.lang.LinkageError: loader (instance of  <bootloader>): attempted  duplicate class definition for name:  
+    ----
+
+Tips(follows README.md of the project)
+
+Installation
+  cd <btrace>/make
+  ant dist
+
+Running
+  <btrace>/bin/btrace <PID> <trace_script>
+    will attach to the java application with the given PID and compile and submit the trace script
+
+  <btrace>/bin/btracec <trace_script>
+    will compile the provided trace script
+
+  <btrace>/bin/btracer <compiled_script> <args to launch a java app>
+    will start the specified java application with the btrace agent running and the script previously compiled by btracec loaded
+
+Samples
+  Just check files in <btrace>/samples
+  for example
+    bin/btrace -cp build/ <pid> samples/AllMethods.java

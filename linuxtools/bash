@@ -1,4 +1,4 @@
-bash Hotkeys
+1.bash hotkeys
 	Ctrl-R - Check history
 	Ctrl-U - Cuts everything to the left 
 	Ctrl-W - Cuts the word to the left 
@@ -6,4 +6,30 @@ bash Hotkeys
 	Ctrl-A - Go to beginning of line 
 	Ctrl-E - Go to end of line
 
+2.ssh key-gen
+	ssh-copy-id
+		ssh-copy-id user@host
+	ssh-keygen
 	
+	remember to check the mode of .ssh and .ssh/* files
+	
+3.remove files with special char name, by inode
+	ls -il
+	find . -inum 12345 | xargs rm
+
+4.tail
+	tail -f
+	tail -F
+	
+5.check inode number
+	df -i
+	
+6.strace
+	strace -p pid -s 512 -o /tmp/abc -f
+	
+7.ps
+	ps -eo pid,cmd,etime
+	
+8.pstree
+	pstree -a
+	pstree -A

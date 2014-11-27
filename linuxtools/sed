@@ -1,0 +1,28 @@
+1.如果用\001作为分隔符，要替换的话
+sed 's/(^v^a)/ /g' 00000_0
+其中^v^a指连续的按ctrl-v和ctrl-a
+awk -F'\001' '{print $1}' 00000_0
+类似的vim里面，经常碰到^v^m的转换
+
+2.sed的正则提取，看一个nginx日志的处理例子
+
+grep "^20.*f4v-h264-aac.*ext=.f4v" access.122.96.49.117.0401.log | awk '{if ($4 > 2) print $5,$1,$3,$4,$9}' | awk -F'?' '{print $1}' | sed 's/\[\(.\{14\}\)\(.\{11\}\)\([0-9]\+\) \([0-9]\+\.[0-9]\+.*\) \(.*\)\/[0-9a-z]\{32\}-f4v-h264-aac-\([0-9]\+\)-\([0-9]\+\)-\([0-9\.]\+\)-\([0-9]\+\)-\(.*\)/\1 \3 \4 \6 \7 \8 \9/' | awk '{if ($2/($3+3) < ($7/$6*1000)) {a=1} else {a=0} print $0, a, 1}' | awk '{bad[$1]+=$8;all[$1]+=$9}END{for(i in bad) printf"%s %d %d %5.2f\n", i, bad[i], all[i], bad[i]/all[i]*100}' | sort
+
+原始日志是
+200 _ 27561473 326.901 [01/Apr/2013:00:02:08 +0800] 49.154.84.213 "GET /629/58/8/6ecd36130b274dbce0f8ae37eda14159-f4v-h264-aac-799-32-268190.0-27561473-1338934221164-d6a18ee1627897efea358f28dac925aa-1-00-00-00.f4v?vid=43919885&lp=8082&lroot=/1&kfd=1&cmd=0&start=1&uuid=32C01724D87F2185978F2CFEBAEB619A4FCF6A03&srchost=58.215.121.73&srcroot=/3&s=0&tm=1364831808&key=a6552f71c915a8059d05edc5ca9b9bb3&diskid=12&lr=0&nlh=0&check=1&id=ku6_vod&usrip=122.194.13.85&uloc=10.0.32&ipsm=1&ext=.f4v HTTP/1.1" "http://player.ku6cdn.com/default/common/player/201303211627/player.swf" "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.0; Trident/5.0)" "MISS" "-" 122.96.49.117 122.96.49.117
+
+另一个例子，如果原始日志是
+[07/May/2014:11:34:51 +0800] 180.169.127.118 GET /ku6.gif?action=adsetup&timeload=0&timetotal=652&ads=1&autoplay=1&vid=t0hapu_miEw7dxNfMPPyeg..&uuid=D73304258275177A450A8C96547BE12290FB1645&rnd=0.8431112817488611&refer=http%3A%2F%2Fzongyi.ku6.com%2F%3Fhpsrc%3D1_8_6_9_0&url=http%3A%2F%2Fv.ku6.com%2Fshow%2Ft0hapu_miEw7dxNfMPPyeg...html%3Fcsrc%3D2_136_1&pid=mj7sr6ymy7pdpwu6a6jhhpb4p2sm6kpfh2oe57v8&cid=118000&clientTime=14578&ver=Version_3.0.2703_build:201405071129&kernel=Ku6_Kernel_1.0.2572&from=&script=true&flash=WIN%2011,3,300,257&wnd=ED24EDAA6C7F620EE888A12DCBB8D9C43D230C8A&playtimes=1&mediasrc=0&uid=22749185&ref=http%3A%2F%2Fv.ku6.com%2Fshow%2Ft0hapu_miEw7dxNfMPPyeg...html&frombd= HTTP/1.1
+[07/May/2014:11:34:53 +0800] 180.169.127.118 GET /ku6.gif?action=play&fid=09YQxvB5JdwxYPe7&userrate=0&videorate=799&retry=0&error=800&utime=12&proxyurl=http%3A%2F%2Fmain.gslb.ku6.com%2Fs0%2F09YQxvB5JdwxYPe7%2F1398132483069%2F6d3edb3c09b0f59d68f362df36e7bb4c%2F1399433676168%2Fv632%2F27%2F42%2Fe80060aa4e2ac64550633874a8606b14-f4v-h264-aac-1199-32-296007.0-45809994-1398132351832-f7ffad4f075a2d0e6cf753fef42728f2-1-00-00-00.f4v%3Fuuid%3DD73304258275177A450A8C96547BE12290FB1645%26rate%3D799%26start%3D0&streamurl=http%3A%2F%2F58.215.121.73%2F627%2F23%2F85%2Fddc980b8ed1218fc68edd10242a9d1f6-f4v-h264-aac-241-32-294288.0-10234808-1398148280134-d147cc9577d4fff1d62f1b57f006a22b-1-00-00-00.f4v%3Fvid%3D85073782%26lp%3D8083%26lroot%3D%2F2%26kfd%3D1%26cmd%3D0%26tm%3D1399520002%26key%3D2dd876998664bc154107a90ad7b6fe44%26diskid%3D321%26lr%3D0%26nlh%3D0%26check%3D1%26id%3Dku6_vod%26usrip%3D180.169.127.118%26uloc%3D9.0.1%26ipsm%3D1%26ext%3D.f4v&drag=0&vvsplit=1&split=1&testrate=0&tvpercent=0&gone=7001&preload=1&time=652&timeout=0&vid=t0hapu_miEw7dxNfMPPyeg..&uuid=D73304258275177A450A8C96547BE12290FB1645&rnd=0.18704017018899322&refer=http%3A%2F%2Fzongyi.ku6.com%2F%3Fhpsrc%3D1_8_6_9_0&url=http%3A%2F%2Fv.ku6.com%2Fshow%2Ft0hapu_miEw7dxNfMPPyeg...html%3Fcsrc%3D2_136_1&pid=mj7sr6ymy7pdpwu6a6jhhpb4p2sm6kpfh2oe57v8&cid=118000&clientTime=17216&ver=Version_3.0.2703_build:201405071129&kernel=Ku6_Kernel_1.0.2572&from=&script=true&flash=WIN%2011,3,300,257&wnd=ED24EDAA6C7F620EE888A12DCBB8D9C43D230C8A&playtimes=1&mediasrc=0&uid=22749185&ref=http%3A%2F%2Fv.ku6.com%2Fshow%2Ft0hapu_miEw7dxNfMPPyeg...html&frombd= HTTP/1.1
+[07/May/2014:11:34:54 +0800] 180.169.127.118 GET /ku6.gif?action=play&fid=09YQxvB5JdwxYPe7&userrate=0&videorate=799&retry=1&error=800&utime=21&proxyurl=http%3A%2F%2Fmain.gslb.ku6.com%2Fs0%2F09YQxvB5JdwxYPe7%2F1398132483069%2F6d3edb3c09b0f59d68f362df36e7bb4c%2F1399433676168%2Fv632%2F27%2F42%2Fe80060aa4e2ac64550633874a8606b14-f4v-h264-aac-1199-32-296007.0-45809994-1398132351832-f7ffad4f075a2d0e6cf753fef42728f2-1-00-00-00.f4v%3Fuuid%3DD73304258275177A450A8C96547BE12290FB1645%26rate%3D799%26start%3D0&streamurl=http%3A%2F%2F58.215.121.73%2F627%2F23%2F85%2Fddc980b8ed1218fc68edd10242a9d1f6-f4v-h264-aac-241-32-294288.0-10234808-1398148280134-d147cc9577d4fff1d62f1b57f006a22b-1-00-00-00.f4v%3Fvid%3D85073782%26lp%3D8083%26lroot%3D%2F2%26kfd%3D1%26cmd%3D0%26tm%3D1399520002%26key%3D2dd876998664bc154107a90ad7b6fe44%26diskid%3D321%26lr%3D0%26nlh%3D0%26check%3D1%26id%3Dku6_vod%26usrip%3D180.169.127.118%26uloc%3D9.0.1%26ipsm%3D1%26ext%3D.f4v&drag=0&split=1&testrate=0&tvpercent=0&gone=7001&preload=1&time=652&timeout=0&vid=t0hapu_miEw7dxNfMPPyeg..&uuid=D73304258275177A450A8C96547BE12290FB1645&rnd=0.017470570281147957&refer=http%3A%2F%2Fzongyi.ku6.com%2F%3Fhpsrc%3D1_8_6_9_0&url=http%3A%2F%2Fv.ku6.com%2Fshow%2Ft0hapu_miEw7dxNfMPPyeg...html%3Fcsrc%3D2_136_1&pid=mj7sr6ymy7pdpwu6a6jhhpb4p2sm6kpfh2oe57v8&cid=118000&clientTime=17280&ver=Version_3.0.2703_build:201405071129&kernel=Ku6_Kernel_1.0.2572&from=&script=true&flash=WIN%2011,3,300,257&wnd=ED24EDAA6C7F620EE888A12DCBB8D9C43D230C8A&playtimes=1&mediasrc=0&uid=22749185&ref=http%3A%2F%2Fv.ku6.com%2Fshow%2Ft0hapu_miEw7dxNfMPPyeg...html&frombd= HTTP/1.1
+
+命令
+awk -F'/ku6.gif\\?' '{print $2}' datatrack.log.1 | sed 's/action=\([a-z]*\)\(.*\)&uuid=\([0-9A-Z]*\)&\(.*\)/\1 \3/'
+可以得到action和uuid
+adsetup D73304258275177A450A8C96547BE12290FB1645
+play D73304258275177A450A8C96547BE12290FB1645
+play D73304258275177A450A8C96547BE12290FB1645
+play D73304258275177A450A8C96547BE12290FB1645
+play D73304258275177A450A8C96547BE12290FB1645
+adshow D73304258275177A450A8C96547BE12290FB1645
+adover D73304258275177A450A8C96547BE12290FB1645

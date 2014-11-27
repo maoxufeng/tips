@@ -49,3 +49,6 @@ awk -F: '{ count[$2":"$3]++ } END { for (minute in count) print minute, count[mi
 18:57 15645
 18:58 16678
 18:59 19032
+
+7.\001作为分隔符，常见于hive输出文件的分隔符
+awk -F'\001' '{print $1}' 00000_0
