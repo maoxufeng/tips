@@ -1,3 +1,22 @@
+ip, show / manipulate routing, devices, policy routing and tunnels
+	ip addr			协议地址管理	ip-address
+	ip addrlabel	协议地址标签管理	ip-addrlabel
+	ip l2tp			tunnel Ethernet over IP (L2TPv3)	ip-l2tp
+	ip link			网络设备配置	ip-link
+	ip maddr		多播地址管理	ip-maddress
+	ip monitor		监测 netlink 信息	ip-monitor
+	ip mroute		多播路由缓存管理	ip-mroute
+	ip mrule		多播路由策略数据库的规则	
+	ip neigh		邻居/ARP 表管理	ip-neighbour
+	ip netns		process network namespace management	ip-netns
+	ip ntable		邻居表配置	ip-ntable
+	ip route		路由表管理	ip-route
+	ip rule			路由策略数据库管理	ip-rule
+	ip tcp_metrics	管理 TCP Metrics	ip-tcp_metrics
+	ip tunnel		隧道配置	ip-tunnel
+	ip tuntap		管理 TUN/TAP 设备	
+	ip xfrm			管理 IPsec 策略	ip-xfrm
+
 nc, netcat
 	nc -l 9999 -k
 	echo -n "GET / HTTP/1.0\r\n\r\n" | nc localhost 80

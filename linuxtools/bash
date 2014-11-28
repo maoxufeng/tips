@@ -33,3 +33,7 @@
 8.pstree
 	pstree -a
 	pstree -A
+
+9.grep
+	with highlight
+		grep --color=auto

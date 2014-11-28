@@ -4,7 +4,9 @@ Warning
   v1.2 has different API comparing to priors
 
 Weird
-  It seems I always got message below for the 2nd time attaching a Java process, but the much more weird thing is, it works for the 3rd, 4th times. Do not get frustrated when you run into the message, just keep trying.
+  It seems I always got message below for the 2nd time attaching a Java process,
+  but the much more weird thing is, it works for the 3rd, 4th times.
+  Do not get frustrated when you run into the message, just keep trying.
     ----
     java.lang.LinkageError: loader (instance of  <bootloader>): attempted  duplicate class definition for name:  
     ----
