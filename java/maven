@@ -46,9 +46,26 @@ surefire plugin, which executes the test looks for tests contained in files with
 		**/*Test.java, **/Test*.java, **/*TestCase.java
 	And the default excludes are:
 		**/Abstract*Test.java, **/Abstract*TestCase.java
+	
+	To skip tests
+		mvn -Dmaven.test.skip=true
+		mvn -DskipTests=true
 		
-5.mvn test
--Dmaven.test.skip=true
--DskipTests=true
--Dtest=
+	To exclude tests, for example, integration tests that might depends on other live services
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven.surefire.plugin.version}</version>
+				<configuration>
+					<excludes>
+						<exclude>**/integration/**/*.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+	To execute specific tests
+		mvn test -Dtest=TestCircle#mytest
+		mvn test -Dtest=TestCircle#test*
+		mvn test -Dtest=TestCircle
+		mvn test -Dtest=integration.*.Test*
+
 

@@ -37,3 +37,7 @@
 9.grep
 	with highlight
 		grep --color=auto
+		
+10.curl
+	curl 'http://1.2.3.com/iqqq?signature=40A7BA58B49C1FD4A90AD4B298A73E0EE21BF167&timestamp=1300000000&nonce=lighthits' -H Content-Type:application/json --data @push.json
+	curl -F media=@test.jpg "http://file.api.weixin.qq.com/cgi-bin/media/upload?access_token=ACCESS_TOKEN&type=TYPE"

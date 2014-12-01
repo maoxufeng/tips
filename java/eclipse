@@ -1,0 +1,2 @@
+How to prevent eclipse from format block in comments.
+	Windows->Preferences->Java->Code Style->Formatter->Edit->Comments, disable block comment formatting
