@@ -4,3 +4,7 @@ How to get file from resources
 How to get text content from file(by guava)
 	URL url = Resources.getResource(filename);
 	String text = Resources.toString(url, Charsets.UTF_8);
+	
+How to get text content from InputStream(by guava)
+	InputStream file = ...
+	CharStreams.toString(new InputStreamReader(file, "UTF-8"))

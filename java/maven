@@ -68,4 +68,6 @@ surefire plugin, which executes the test looks for tests contained in files with
 		mvn test -Dtest=TestCircle
 		mvn test -Dtest=integration.*.Test*
 
-
+5.local repository
+conf/settings.xml
+	<localRepository>d:/m2/repository</localRepository>
